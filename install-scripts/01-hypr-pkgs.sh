@@ -23,7 +23,9 @@ hypr_package=(
   jq
   kitty
   kvantum
-  nano  
+  matugen 
+  nano 
+  neovim
   network-manager-applet 
   pamixer 
   pavucontrol
@@ -34,13 +36,14 @@ hypr_package=(
   python-pyquery
   qt5ct
   qt6ct
+  qt5-graphicaleffects
   qt6-svg
   rofi-wayland
-  slurp 
+  slurp
+  stow
   swappy 
   swaync 
   swww
-  wallust 
   waybar
   wget
   wl-clipboard
@@ -48,16 +51,20 @@ hypr_package=(
   xdg-user-dirs
   xdg-utils 
   yad
+  yazi
 )
 
 # the following packages can be deleted. however, dotfiles may not work properly
 hypr_package_2=(
   brightnessctl 
   btop
+  cargo
   cava
   eog
   fastfetch
   gnome-system-monitor
+  just
+  lutris
   mousepad 
   mpv
   mpv-mpris 
@@ -107,6 +114,37 @@ if [ $overall_failed -ne 0 ]; then
   echo -e "${ERROR} Some packages failed to uninstall. Please check the log."
 fi
 
+# Ask user for git clone preference
+while true; do
+    read -p "Do you want to clone using SSH (1) or HTTPS (2)? Enter 1 or 2: " clone_method
+    case $clone_method in
+        1)
+            rofi_games_url="git@github.com:PriyanshuPansari/rofi-games.git"
+            lib_game_url="git@github.com:PriyanshuPansari/lib_game_detector.git"
+            break
+            ;;
+        2)
+            rofi_games_url="https://github.com/PriyanshuPansari/rofi-games.git"
+            lib_game_url="https://github.com/PriyanshuPansari/lib_game_detector.git"
+            break
+            ;;
+        *)
+            echo "Invalid input. Please enter 1 for SSH or 2 for HTTPS."
+            ;;
+    esac
+done
+
+printf "\n%s - Installing rofi-games"
+cd ~
+mkdir -p clone
+cd clone
+git clone "$rofi_games_url"
+git clone "$lib_game_url"
+
+cd ~/clone/rofi-games || exit 1
+sudo just install
+ 
+cd "$PARENT_DIR" || exit 1
 
 # Installation of main components
 printf "\n%s - Installing hyprland packages.... \n" "${NOTE}"

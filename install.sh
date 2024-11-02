@@ -101,6 +101,7 @@ LOG="install-$(date +%d-%H%M%S).log"
 # thunar=""
 # xdph=""
 # zsh=""
+# grub_theme=""
 
 # Create Directory for Install Logs
 if [ ! -d Install-Logs ]; then
@@ -192,6 +193,8 @@ ask_yes_no "-Installing in a Asus ROG Laptops?" rog
 printf "\n"
 ask_yes_no "-Do you want to download pre-configured Hyprland dotfiles?" dots
 printf "\n"
+ask_yes_no "-Do you want to install the Yorha GRUB theme?" grub_theme
+printf "\n"
 
 # Ensuring all in the scripts folder are made executable
 chmod +x install-scripts/*
@@ -257,6 +260,10 @@ fi
 if [ "$dots" == "Y" ]; then
     execute_script "dotfiles-main.sh"
 
+fi
+
+if [ "$grub_theme" == "Y" ]; then
+    execute_script "grub-theme.sh"
 fi
 
 clear

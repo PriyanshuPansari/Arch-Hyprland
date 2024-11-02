@@ -65,19 +65,19 @@ while [ "$valid_input" != true ]; do
     printf "\n%s - Installing Simple SDDM Theme\n" "${NOTE}"
 
     # Check if /usr/share/sddm/themes/simple-sddm-2 exists and remove if it does
-    if [ -d "/usr/share/sddm/themes/simple-sddm-2" ]; then
-      sudo rm -rf "/usr/share/sddm/themes/simple-sddm-2"
+    if [ -d "/usr/share/sddm/themes/matugen" ]; then
+      sudo rm -rf "/usr/share/sddm/themes/matugen"
       echo -e "\e[1A\e[K${OK} - Removed existing 'simple-sddm-2' directory." 2>&1 | tee -a "$LOG"
     fi
 
     # Check if simple-sddm-2 directory exists in the current directory and remove if it does
-    if [ -d "simple-sddm-2" ]; then
-      rm -rf "simple-sddm-2"
+    if [ -d "matugen-sddm-theme" ]; then
+      rm -rf "matugen-sddm-theme"
       echo -e "\e[1A\e[K${OK} - Removed existing 'simple-sddm-2' directory from the current location." 2>&1 | tee -a "$LOG"
     fi
 
-    if git clone --depth 1 https://github.com/JaKooLit/simple-sddm-2.git; then
-      while [ ! -d "simple-sddm-2" ]; do
+    if git clone --depth 1 https://github.com/PriyanshuPansari/matugen-sddm-theme; then
+      while [ ! -d "matugen-sddm-theme" ]; do
         sleep 1
       done
 
@@ -86,8 +86,8 @@ while [ "$valid_input" != true ]; do
         echo -e "\e[1A\e[K${OK} - Directory '/usr/share/sddm/themes' created." 2>&1 | tee -a "$LOG"
       fi
 
-      sudo mv simple-sddm-2 /usr/share/sddm/themes/
-      echo -e "[Theme]\nCurrent=simple-sddm-2" | sudo tee "$sddm_conf_dir/theme.conf.user" &>> "$LOG"
+      sudo mv matugen-sddm-theme /usr/share/sddm/themes/
+      echo -e "[Theme]\nCurrent=matugen-sddm-theme" | sudo tee "$sddm_conf_dir/theme.conf.user" &>> "$LOG"
     else
       echo -e "\e[1A\e[K${ERROR} - Failed to clone the theme repository. Please check your internet connection" | tee -a "$LOG" >&2
     fi
